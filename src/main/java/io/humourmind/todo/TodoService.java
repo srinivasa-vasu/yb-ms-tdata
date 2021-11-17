@@ -1,54 +1,46 @@
 package io.humourmind.todo;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Service;
+import javax.enterprise.context.ApplicationScoped;
+import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
 
-@Service
+@ApplicationScoped
+@Transactional
 public class TodoService implements ITodoService {
 
-	private final ITodoRepository todoRepository;
+	private final EntityManager entityManager;
 
-	TodoService(ITodoRepository todoRepository) {
-		this.todoRepository = todoRepository;
+	public TodoService(EntityManager entityManager) {
+		this.entityManager = entityManager;
 	}
 
 	@Override
-	public List<Todo> findAllBySort(Sort sortOrder) {
-		List<Todo> todoList = Collections.emptyList();
-		Iterable<Todo> listIterable = todoRepository.findAll(sortOrder);
-		if (listIterable.iterator().hasNext()) {
-			todoList = new ArrayList<>();
-			listIterable.forEach(todoList::add);
-		}
-		return todoList;
+	public List<Todo> findAll() {
+		return entityManager.createNamedQuery("Todo.findAll", Todo.class).getResultList();
 	}
 
 	@Override
-	public Page<Todo> findByLimit(int limit) {
-		return todoRepository.findAll(PageRequest.ofSize(limit));
-	}
-
-	@Override
-	public Optional<Todo> findById(UUID id) {
-		return todoRepository.findById(id);
+	public Todo findById(UUID id) {
+		return entityManager.find(Todo.class, id);
 	}
 
 	@Override
 	public Todo save(Todo resource) {
-		return todoRepository.save(resource);
+		entityManager.persist(resource);
+		return resource;
+	}
+
+	@Override
+	public Todo update(Todo resource) {
+		return entityManager.merge(resource);
 	}
 
 	@Override
 	public void deleteById(UUID id) {
-		todoRepository.deleteById(id);
+		entityManager.remove(id);
 	}
 
 }

@@ -1,0 +1,24 @@
+quarkus:
+  application:
+    name: yb-ms-data
+  datasource:
+    jdbc:
+      url: jdbc:yugabytedb://127.0.0.2:5433/yugabyte
+      driver: com.yugabyte.Driver
+      initial-size: 10
+      max-size: 10
+      min-size: 10
+      additional-jdbc-properties:
+        currentSchema: todo
+        load-balance: true
+    username: yugabyte
+    password: yugabyte
+    db-kind: pgsql
+#  hibernate-orm:
+#    log:
+#      sql: true
+  flyway:
+    baseline-on-migrate: true
+    create-schemas: false
+#  hibernate-orm:
+#    dialect: org.hibernate.dialect.PostgreSQL10Dialect

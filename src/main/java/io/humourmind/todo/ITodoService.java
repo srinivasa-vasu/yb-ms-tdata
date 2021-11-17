@@ -1,21 +1,17 @@
 package io.humourmind.todo;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
-
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Sort;
 
 public interface ITodoService {
 
-	List<Todo> findAllBySort(Sort sortOrder);
+	List<Todo> findAll();
 
-	Page<Todo> findByLimit(int limit);
-
-	Optional<Todo> findById(UUID id);
+	Todo findById(UUID id);
 
 	Todo save(Todo resource);
+
+	Todo update(Todo resource);
 
 	void deleteById(UUID id);
 
