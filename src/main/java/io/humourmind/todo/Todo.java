@@ -2,7 +2,6 @@ package io.humourmind.todo;
 
 import java.util.UUID;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -22,7 +21,6 @@ import org.hibernate.annotations.Type;
 public class Todo {
 
 	@Id
-	@Column(updatable = false, nullable = false, columnDefinition = "uuid DEFAULT uuid_generate_v4()", name = "id")
 	@GeneratedValue(generator = "UUID")
 	@GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
 	@Type(type = "pg-uuid")

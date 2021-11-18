@@ -1,12 +1,12 @@
 package io.humourmind.todo;
 
 import java.net.URI;
+import java.sql.SQLException;
 import java.util.Objects;
 import java.util.UUID;
 
 import javax.sql.DataSource;
 
-import com.yugabyte.PGProperty;
 import com.yugabyte.ysql.YBClusterAwareDataSource;
 import com.zaxxer.hikari.HikariDataSource;
 import io.swagger.v3.oas.annotations.Operation;
@@ -18,7 +18,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -30,7 +29,6 @@ import static io.swagger.v3.oas.annotations.enums.ParameterIn.PATH;
 import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 import static org.springframework.web.bind.annotation.RequestMethod.PUT;
-import static org.springframework.web.servlet.function.RequestPredicates.GET;
 import static org.springframework.web.servlet.function.ServerResponse.created;
 import static org.springframework.web.servlet.function.ServerResponse.ok;
 
@@ -42,22 +40,25 @@ public class TodoApplication {
 	}
 
 	@Bean
-	public DataSource ybDataSource(DataSourceProperties properties) {
+	public DataSource ybDataSource(DataSourceProperties properties) throws SQLException {
 		YBClusterAwareDataSource wrappedDataSource = (YBClusterAwareDataSource) properties.initializeDataSourceBuilder()
 				.type(YBClusterAwareDataSource.class).build();
 		wrappedDataSource.setReWriteBatchedInserts(true);
-		wrappedDataSource.setProperty(PGProperty.YB_LOAD_BALANCE, "true");
+//		wrappedDataSource.setProperty(PGProperty.YB_LOAD_BALANCE, "true");
+		wrappedDataSource.setProperty("load-balance", "true");
 		HikariDataSource hikariDataSource = new HikariDataSource();
 		hikariDataSource.setDataSource(wrappedDataSource);
 		hikariDataSource.setConnectionTestQuery("SELECT 1");
 		return hikariDataSource;
 	}
 
+/*
 	@Bean
 	RouterFunction<ServerResponse> staticResourceRouter() {
 		return RouterFunctions.resources("/**", new ClassPathResource("static/")).andRoute(GET("/"),
 				req -> ok().contentType(MediaType.TEXT_HTML).body(new ClassPathResource("static/index.html")));
 	}
+*/
 
 	@RouterOperations({
 			@RouterOperation(path = "/v1/todo", beanClass = TodoService.class, beanMethod = "findAllBySort",
