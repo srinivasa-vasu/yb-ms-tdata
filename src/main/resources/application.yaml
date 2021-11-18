@@ -1,0 +1,29 @@
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+spring:
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+  flyway:
+    baseline-on-migrate: true
+    schemas: todo
+  jpa:
+    properties:
+      hibernate:
+        default_schema: todo
+    show-sql: true
+  datasource:
+    url: jdbc:yugabytedb://127.0.0.2:5433/yugabyte
+    username: yugabyte
+    password: yugabyte
+    driver-class-name: com.yugabyte.Driver
+
+springdoc:
+  api-docs:
+    path: "/openapi"
+    resolve-schema-properties: true
+  swagger-ui:
+    path: "/swagger"
