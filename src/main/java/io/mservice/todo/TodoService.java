@@ -1,6 +1,7 @@
-package io.humourmind.todo;
+package io.mservice.todo;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -8,7 +9,6 @@ import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
 @ApplicationScoped
-@Transactional
 public class TodoService implements ITodoService {
 
 	private final EntityManager entityManager;
@@ -28,19 +28,24 @@ public class TodoService implements ITodoService {
 	}
 
 	@Override
+	@Transactional
 	public Todo save(Todo resource) {
 		entityManager.persist(resource);
 		return resource;
 	}
 
 	@Override
+	@Transactional
 	public Todo update(Todo resource) {
 		return entityManager.merge(resource);
 	}
 
 	@Override
-	public void deleteById(UUID id) {
-		entityManager.remove(id);
+	@Transactional
+	public boolean deleteById(UUID id) {
+		Optional<Todo> todo = Optional.ofNullable(findById(id));
+		todo.ifPresent(t -> entityManager.remove(t));
+		return todo.isPresent();
 	}
 
 }

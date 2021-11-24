@@ -20,13 +20,15 @@ dependencies {
     implementation("io.quarkus:quarkus-resteasy-jackson")
     implementation("io.quarkus:quarkus-config-yaml")
     implementation("io.quarkus:quarkus-agroal")
+    implementation("io.quarkus:quarkus-smallrye-fault-tolerance")
+
     implementation("com.yugabyte:jdbc-yugabytedb:42.3.0")
 
     testImplementation("io.quarkus:quarkus-junit5")
     testImplementation("io.rest-assured:rest-assured")
 }
 
-group = "io.humourmind.quarkus"
+group = "io.mservice.quarkus"
 version = "1.0.0"
 
 java {

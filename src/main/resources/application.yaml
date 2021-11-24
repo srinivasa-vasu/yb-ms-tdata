@@ -3,7 +3,7 @@ quarkus:
     name: yb-ms-data
   datasource:
     jdbc:
-      url: jdbc:yugabytedb://127.0.0.2:5433/yugabyte
+      url: jdbc:yugabytedb://127.0.0.2:5433,127.0.0.3:5433,127.0.0.4:5433/yugabyte
       driver: com.yugabyte.Driver
       initial-size: 10
       max-size: 10
@@ -19,6 +19,5 @@ quarkus:
 #      sql: true
   flyway:
     baseline-on-migrate: true
-    create-schemas: false
 #  hibernate-orm:
 #    dialect: org.hibernate.dialect.PostgreSQL10Dialect

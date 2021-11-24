@@ -1,4 +1,4 @@
-package io.humourmind.todo;
+package io.mservice.todo;
 
 import java.util.List;
 import java.util.UUID;
@@ -13,6 +13,6 @@ public interface ITodoService {
 
 	Todo update(Todo resource);
 
-	void deleteById(UUID id);
+	boolean deleteById(UUID id);
 
 }

@@ -1,4 +1,4 @@
-package io.humourmind.todo;
+package io.mservice.todo;
 
 import java.util.UUID;
 
@@ -9,7 +9,9 @@ import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 
 @Entity
 @Table(name = "todo")
@@ -20,6 +22,7 @@ public class Todo {
 	@Id
 	@GeneratedValue(generator = "UUID")
 	@GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+	@Type(type = "pg-uuid")
 	private UUID id;
 
 	private String task;
