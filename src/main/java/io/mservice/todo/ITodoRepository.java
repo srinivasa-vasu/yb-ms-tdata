@@ -1,10 +1,9 @@
-package io.humourmind.todo;
+package io.mservice.todo;
 
 import java.util.UUID;
 
 import com.yugabyte.data.jdbc.repository.YsqlRepository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
