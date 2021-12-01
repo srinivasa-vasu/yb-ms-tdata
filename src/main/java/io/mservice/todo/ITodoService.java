@@ -1,4 +1,4 @@
-package io.humourmind.todo;
+package io.mservice.todo;
 
 import java.util.List;
 import java.util.Optional;

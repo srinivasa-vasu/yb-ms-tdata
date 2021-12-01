@@ -1,4 +1,4 @@
-package io.humourmind.todo;
+package io.mservice.todo;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Transactional
 public class TodoService implements ITodoService {
 
 	private final ITodoRepository todoRepository;
@@ -22,7 +21,6 @@ public class TodoService implements ITodoService {
 		this.todoRepository = todoRepository;
 	}
 
-	@Override
 	public List<Todo> findAllBySort(Sort sortOrder) {
 		List<Todo> todoList = Collections.emptyList();
 		Iterable<Todo> listIterable = todoRepository.findAll(sortOrder);
@@ -33,22 +31,20 @@ public class TodoService implements ITodoService {
 		return todoList;
 	}
 
-	@Override
 	public Page<Todo> findByLimit(int limit) {
 		return todoRepository.findAll(PageRequest.ofSize(limit));
 	}
 
-	@Override
 	public Optional<Todo> findById(UUID id) {
 		return todoRepository.findById(id);
 	}
 
-	@Override
+	@Transactional
 	public Todo save(Todo resource) {
 		return todoRepository.save(resource);
 	}
 
-	@Override
+	@Transactional
 	public void deleteById(UUID id) {
 		todoRepository.deleteById(id);
 	}

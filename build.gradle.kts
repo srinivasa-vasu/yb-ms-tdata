@@ -4,7 +4,7 @@ plugins {
     id("java")
 }
 
-group = "io.humourmind.boot"
+group = "io.mservice.boot"
 version = "1.0.0"
 java.sourceCompatibility = JavaVersion.VERSION_11
 
@@ -28,6 +28,7 @@ dependencies {
     implementation("com.yugabyte:spring-data-yugabytedb-ysql:2.3.0") {
         exclude(module = "jdbc-yugabytedb")
     }
+    implementation("org.springframework.retry:spring-retry")
 
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
     annotationProcessor("org.projectlombok:lombok")
