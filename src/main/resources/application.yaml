@@ -3,7 +3,6 @@ management:
     web:
       exposure:
         include: '*'
-
 spring:
   jackson:
     property-naming-strategy: SNAKE_CASE
@@ -13,13 +12,21 @@ spring:
   jpa:
     properties:
       hibernate:
+        connection:
+          provider_disables_autocommit: true
         default_schema: todo
-    show-sql: true
+    open-in-view: false
+  #    show-sql: true
   datasource:
-    url: jdbc:yugabytedb://127.0.0.2:5433/yugabyte
+    url: jdbc:yugabytedb://127.0.0.2:5433/yugabyte?load-balance=true
     username: yugabyte
     password: yugabyte
     driver-class-name: com.yugabyte.Driver
+    hikari:
+      minimum-idle: 10
+      maximum-pool-size: 20
+      auto-commit: false
+      leak-detection-threshold: 1
 
 springdoc:
   api-docs:
@@ -27,3 +34,15 @@ springdoc:
     resolve-schema-properties: true
   swagger-ui:
     path: "/swagger"
+
+#logging:
+#  level:
+#    com:
+#      zaxxer:
+#        hikari:
+#          HikariConfig: DEBUG
+#          pool:
+#            HikariPool: DEBUG
+#            PoolEntry: DEBUG
+
+
